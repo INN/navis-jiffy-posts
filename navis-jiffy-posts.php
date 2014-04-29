@@ -390,11 +390,11 @@ class Navis_Jiffy_Posts {
 
         $content = '';
         if ( isset( $_POST[ 'leadintext' ] ) ) {
-            $content = '<p>' . $_POST[ 'leadintext' ] . '</p>';
+            $content = '<p>' . wp_filter_post_kses( $_POST[ 'leadintext' ] ) . '</p>';
         }
 
         if ( isset( $_POST[ 'embedlyarea' ] ) ) {
-            $content .= $_POST[ 'embedlyarea' ];
+            $content .= $_POST[ 'embedlyarea' ]; // Contains the rendered embed code
         }
 
         $data[ 'post_content' ] = $content;
