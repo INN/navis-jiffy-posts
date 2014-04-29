@@ -370,7 +370,39 @@ class Navis_Jiffy_Posts {
         );
         foreach ( $fields as $field ) {
             if ( isset( $_POST[ $field ] ) ) {
-                $data = $_POST[ $field ];
+
+                switch ( $field ) {
+                    case 'navis_embed_url':
+                    case 'provider_url':
+                    case 'via_url':
+                        $data = esc_url_raw( $_POST[ $field ] );
+                        break;
+
+                    case 'leadintext':
+                    case 'custom_description':
+                        $data = wp_filter_post_kses( $_POST[ $field ] );
+                        break;
+
+                    case 'provider_name':
+                    case 'via_name':
+                        $data = sanitize_text_field( $_POST[ $field ] );
+                        break;
+
+                    case 'linktype':
+                        $data = sanitize_key( $_POST[ $field ] );
+                        break;
+
+                    case 'hide_image':
+                        $data = ! empty( $_POST[ $field ] ) ? 1 : 0;
+                        break;
+
+                    case 'embedlyarea':
+                    case 'oembedData':
+                        $data = $_POST[ $field ];
+                        break;
+
+                }
+
                 update_post_meta( $post_id, '_' . $field, $data );
             }
         }
